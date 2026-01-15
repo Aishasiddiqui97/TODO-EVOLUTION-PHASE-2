@@ -56,3 +56,10 @@ coverage.xml
 # Temporary files
 *.tmp
 *.bak
+tmpclaude-*
+*.deb
+.claude/settings.local.json
+node_modules/
+.next/
+backend/venv/
+backend/__pycache__/

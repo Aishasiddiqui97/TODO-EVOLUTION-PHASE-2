@@ -1,145 +1,138 @@
-# Evolution of Todo - Phase I
+# Evolution of Todo - Phase II
 
-A simple command-line todo list application for managing tasks in memory.
+A full-stack web application for managing tasks with user authentication and persistent storage.
 
-## Phase I Features
+## Features
 
-- ✅ Add tasks with automatic ID assignment
-- ✅ View all tasks in a formatted table
-- ✅ Update task descriptions
-- ✅ Delete tasks
-- ✅ Mark tasks as complete or incomplete
-- ✅ Input validation and error handling
-- ✅ Menu-driven interface
+- **User Authentication**: Secure sign up and sign in with JWT tokens
+- **Todo Management**: Create, read, update, delete, and toggle completion of tasks
+- **User Isolation**: Users can only access their own tasks
+- **Responsive UI**: Works on desktop and mobile devices
+- **Persistent Storage**: Data stored in PostgreSQL database
 
-## Requirements
+## Tech Stack
 
-- Python 3.11 or higher
+- **Backend**: Python, FastAPI, SQLModel, PostgreSQL
+- **Frontend**: Next.js 16+, TypeScript, Tailwind CSS
+- **Authentication**: JWT-based authentication
+- **Database**: PostgreSQL (with Neon for production)
 
-## Installation
+## Prerequisites
 
-No installation required. The application uses only Python standard library.
+- Python 3.13+
+- Node.js 18+
+- PostgreSQL (or Docker for local development)
 
-## Usage
+## Setup Instructions
 
-Run the application from the repository root:
+### Backend Setup
 
+1. Navigate to the backend directory:
 ```bash
-python src/todo_app.py
+cd backend
 ```
 
-### Menu Options
-
-1. **Add Task** - Create a new task with a description
-2. **View Tasks** - Display all tasks in a table format
-3. **Update Task** - Change the description of an existing task
-4. **Delete Task** - Remove a task from the list
-5. **Mark Task Complete** - Mark a task as finished
-6. **Mark Task Incomplete** - Mark a task as unfinished
-7. **Exit** - Close the application
-
-### Example Session
-
-```
-===== Todo List Application =====
-
-1. Add Task
-2. View Tasks
-3. Update Task
-4. Delete Task
-5. Mark Task Complete
-6. Mark Task Incomplete
-7. Exit
-
-Enter your choice (1-7): 1
-Enter task description: Buy groceries
-✓ Task added successfully with ID: 1
-
-Enter your choice (1-7): 1
-Enter task description: Finish project report
-✓ Task added successfully with ID: 2
-
-Enter your choice (1-7): 2
-
-ID  | Description                      | Status
-----|----------------------------------|------------
-1   | Buy groceries                    | Incomplete
-2   | Finish project report            | Incomplete
-
-Enter your choice (1-7): 5
-Enter task ID: 2
-✓ Task marked as complete
-
-Enter your choice (1-7): 2
-
-ID  | Description                      | Status
-----|----------------------------------|------------
-1   | Buy groceries                    | Incomplete
-2   | Finish project report            | Complete
-
-Enter your choice (1-7): 7
-
-Goodbye!
+2. Create a virtual environment and activate it:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-## Important Notes
-
-- **In-Memory Storage**: All tasks are stored in memory only. When you exit the application, all data is lost.
-- **No Persistence**: This is Phase I - no file or database storage is implemented yet.
-- **Single User**: Designed for single-user, single-session use.
-
-## Phase I Constraints
-
-Per the project constitution and specification:
-
-- ✅ Python 3.11+ with standard library only
-- ✅ In-memory data structures (Python dictionary)
-- ✅ Console-based interface only
-- ✅ No databases
-- ✅ No file storage
-- ✅ No web frameworks
-- ✅ No external dependencies
-- ✅ No authentication
-- ✅ No future-phase features
-
-## File Structure
-
-```
-src/
-├── task_manager.py  # Data layer (CRUD operations, storage)
-├── ui.py            # Presentation layer (display, input, validation)
-└── todo_app.py      # Application layer (main loop, handlers)
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
 ```
 
-## Testing
+4. Copy the environment example and configure your settings:
+```bash
+cp ../.env.example .env
+# Edit .env with your specific configuration
+```
 
-The application has been validated against all Phase I acceptance criteria:
+5. Start the database with Docker:
+```bash
+docker-compose up -d
+```
 
-- ✅ All 5 user stories functional (Add, View, Update, Delete, Mark)
-- ✅ Input validation works (empty descriptions, invalid IDs, invalid menu choices)
-- ✅ Error messages are clear and actionable
-- ✅ Task list displays correctly (formatted table with ID, description, status)
-- ✅ Sequential ID assignment (1, 2, 3...)
-- ✅ Application starts and exits cleanly
+6. Run the backend server:
+```bash
+cd src
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-## Future Phases
+### Frontend Setup
 
-Phase I is complete. Future phases will add:
+1. Navigate to the frontend directory:
+```bash
+cd frontend
+```
 
-- **Phase II**: Multi-user support with authentication and persistence
-- **Phase III**: Advanced features (priorities, due dates, tags, search)
-- **Phase IV**: Real-time collaboration and synchronization
-- **Phase V**: Distributed architecture with event-driven scaling
+2. Install dependencies:
+```bash
+npm install
+```
 
-## Documentation
+3. Copy the environment example:
+```bash
+cp .env.example .env.local
+# Edit .env.local with your specific configuration
+```
 
-For detailed documentation, see:
+4. Run the development server:
+```bash
+npm run dev
+```
 
-- `specs/001-phase-1-todo-crud/spec.md` - Feature specification
-- `specs/001-phase-1-todo-crud/plan.md` - Implementation plan
-- `specs/001-phase-1-todo-crud/tasks.md` - Task breakdown
-- `specs/001-phase-1-todo-crud/quickstart.md` - User guide
+The application will be accessible at `http://localhost:3000`.
+
+## API Endpoints
+
+The backend provides the following API endpoints:
+
+- `POST /api/tasks` - Create a new task
+- `GET /api/tasks` - Get all tasks for the authenticated user
+- `GET /api/tasks/{id}` - Get a specific task
+- `PUT /api/tasks/{id}` - Update a task
+- `DELETE /api/tasks/{id}` - Delete a task
+- `PATCH /api/tasks/{id}/complete` - Update task completion status
+
+## Project Structure
+
+```
+├── backend/
+│   ├── src/
+│   │   ├── main.py
+│   │   ├── db.py
+│   │   ├── models/
+│   │   ├── api/
+│   │   └── auth/
+│   └── requirements.txt
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── lib/
+│   │   └── styles/
+│   ├── package.json
+│   └── tsconfig.json
+├── specs/
+│   └── 002-phase-2-web-app/
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
+
+## Development
+
+For development, both the backend and frontend need to run simultaneously. The frontend expects the backend to be available at `http://localhost:8000`.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## License
 
-This is an educational project for demonstrating Spec-Driven Development principles.
+This project is licensed under the MIT License.
