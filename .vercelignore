@@ -1,0 +1,9 @@
+backend/
+specs/
+history/
+.specify/
+*.md
+!README.md
+docker-compose.yml
+config.json
+.git/

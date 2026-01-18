@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
 from typing import Dict
-from ...models.user import User
-from ...db import get_session
-from ...auth.jwt import create_access_token
+from models.user import User
+from db import get_session
+from auth.jwt import create_access_token
 from pydantic import BaseModel
 
 router = APIRouter()
